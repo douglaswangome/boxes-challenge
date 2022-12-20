@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Box from './components/Box';
+import boxes from './data';
 
-function App() {
+const App = () => {
+  const [squares, setSquares] = useState(boxes);
+
+  const switchColor = (id) => {
+    setSquares(prevSquare => {
+      return prevSquare.map((square) => {
+        return square.id === id ? {...square, colored: !square.colored} : {...square};
+      });
+    });
+  }
+
+  const box = squares.map((square) => {
+    return <Box key={square.id} {...square} switchColor={() => switchColor(square.id)} />;
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+     {box}
     </div>
   );
 }
